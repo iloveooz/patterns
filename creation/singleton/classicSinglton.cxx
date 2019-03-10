@@ -21,7 +21,7 @@
 	int main() {
 		
 		// Singleton A;
-		Singleton * Singleton::p_instance = 0;
+		Singleton* Singleton::p_instance = NULL;
 				
 		
 		return 0;
