@@ -33,8 +33,7 @@ public:
 	}
 
 	void singChorus() {
-		std::string text = "спел припев";
-		output(text);
+		output("спел припев");
 	}
 };
 
@@ -44,28 +43,23 @@ public:
 	Guitarist(const std::string &name) : Musician(name) {}
 
 	void playCoolOpening() {
-		std::string text = "начинает с крутого вступления";
-		output(text);
+		output("начинает с крутого вступления");
 	}
 
 	void playCoolRiffs() {
-		std::string text = "играет крутые риффы";
-		output(text);
+		output("играет крутые риффы");
 	}
 
 	void playAnotherCoolRiffs() {
-		std::string text = "играет другие крутые риффы";
-		output(text);
+		output("играет другие крутые риффы");
 	}
 
 	void playIncrediblyCoolSolo() {
-		std::string text = "выдает невероятно крутое соло";
-		output(text);
+		output("выдает невероятно крутое соло");
 	}
 
 	void playFinalAccord() {
-		std::string text = "заканчивает песню мощным аккордом";
-		output(text);
+		output("заканчивает песню мощным аккордом");
 	}
 };
 
@@ -75,11 +69,10 @@ public:
 	Bassist(const std::string &name) : Musician(name) {}
 
 	void followTheDrums() {
-		std::string text = "следует за барабанами";
-		output(text);
+		output("следует за барабанами");
 	}
 
-	void changeRhythm(const std::string type) {
+	void changeRhythm(const std::string &type) {
 		std::string text = ("перешел на ритм ");
 		text += type;
 		text += "a";
@@ -87,8 +80,7 @@ public:
 	}
 
 	void stopPlaying() {
-		std::string text = "заканчивает играть";
-		output(text);
+		output("заканчивает играть");
 	}
 };
 
@@ -98,13 +90,11 @@ public:
 	Drummer(const std::string &name) : Musician(name) {}
 
 	void startPlaying() {
-		std::string text = "начинает играть";
-		output(text);
+		output("начинает играть");
 	}
 
 	void stopPlaying() {
-		std::string text = "заканчивает играть";
-		output(text);
+		output("заканчивает играть");
 	}
 };
 
@@ -131,32 +121,23 @@ public:
 		bassist->followTheDrums();
 		guitarist->playCoolRiffs();
 		vocalist->singCouplet(1);
-
-		std::string chorus("припев");
-		std::string couplet("куплет");
-
-		bassist->changeRhythm(std::string(chorus));
+		bassist->changeRhythm("припев");
 		guitarist->playAnotherCoolRiffs();
 		vocalist->singChorus();
-
-		bassist->changeRhythm(std::string(couplet));
+		bassist->changeRhythm("куплет");
 		guitarist->playCoolRiffs();
 		vocalist->singCouplet(2);
-
-		bassist->changeRhythm(std::string(chorus));
+		bassist->changeRhythm("припев");
 		guitarist->playAnotherCoolRiffs();
 		vocalist->singChorus();
-
-		bassist->changeRhythm(std::string(couplet));
+		bassist->changeRhythm("куплет");
 		guitarist->playIncrediblyCoolSolo();
 		guitarist->playCoolRiffs();
 		vocalist->singCouplet(3);
-
-		bassist->changeRhythm(std::string(chorus));
+		bassist->changeRhythm("припев");
 		guitarist->playAnotherCoolRiffs();
 		vocalist->singChorus();
-
-		bassist->changeRhythm(std::string(couplet));
+		bassist->changeRhythm("куплет");
 		guitarist->playCoolRiffs();
 		bassist->stopPlaying();
 		drummer->stopPlaying();
@@ -166,10 +147,11 @@ public:
 
 int main() {
 	setlocale(LC_ALL, "Russian");
+
 	std::cout << "OUTPUT:" << std::endl;
 	BlackSabbath band;
 	band.playCoolSong();
-
+	
 	std::cout << std::endl;
 	system("pause");
 	return 0;
