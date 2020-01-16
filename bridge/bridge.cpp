@@ -1,4 +1,12 @@
 #include <iostream>
+#include <vector>
+
+enum class Shape_ID {
+	SmallCircle_ID,
+    LargeCircle_ID,
+    Point_ID,
+    Square_ID
+};
 
 class Drawer {
 public:
@@ -65,8 +73,12 @@ public:
     Shape(): drawer(nullptr) {
     }
 
+    virtual ~Shape() {}
+
     virtual void draw() = 0;
     virtual void enlargeRadius(int multiplier) = 0;
+
+    static Shape* createShape(Shape_ID, int x, int y, int edge, int radius);
 };
 
 class Circle : public Shape {
@@ -153,16 +165,47 @@ public:
     void enlargeRadius(int multiplier) override {}
 };
 
+Shape* Shape::createShape(Shape_ID id, int x, int y, int edge, int radius) {
+    Shape* sh = nullptr;
+
+    switch(id) {
+    case Shape_ID::LargeCircle_ID:
+        sh = new Circle(x, y, radius, new LargeCircleDrawer());
+        break;
+    case Shape_ID::SmallCircle_ID:
+        sh = new Circle(x, y, radius, new SmallCircleDrawer());
+        break;
+    case Shape_ID::Point_ID:
+        sh = new Point(x, y, new PointDrawer());
+    	break;
+    case Shape_ID::Square_ID:
+        sh = new Square(x, y, edge, new SquareDrawer());
+    	break;
+    default:
+        break;
+    }
+    return sh;
+}
+
+class ShapeFactory {
+public:
+    virtual Shape* createShape() = 0;
+};
+
 int main(int argc, char* argv[])
 {
-    Shape* shapes[6] = { 
+    std::vector<Shape*> shapes = { 
 		new Circle(5,10,10, new LargeCircleDrawer()),
 		new Circle(20,30,1, new SmallCircleDrawer()), 
 		new Point(100, 100, new PointDrawer()),
-		new Point(1000, 1000, new PointDrawer()),
-        new Square(100, 100, 100, new SquareDrawer()),
-        new Square(1000, 1000, 100, new SquareDrawer())
+		new Point(1000, 1000, new PointDrawer())
     };
+
+    shapes.push_back(new Square(100, 100, 100, new SquareDrawer()));
+    shapes.push_back(new Square(1000, 1000, 100, new SquareDrawer()));
+
+    shapes.push_back(Shape::createShape(Shape_ID::LargeCircle_ID, 55, 55, 55, 55));
+    shapes.push_back(Shape::createShape(Shape_ID::Square_ID, 55, 55, 55, 55));
 
     for (Shape* shape : shapes) {
 	    shape->draw();
@@ -171,3 +214,5 @@ int main(int argc, char* argv[])
     system("pause");
     return 0;
 }
+
+
