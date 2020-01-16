@@ -5,25 +5,30 @@ public:
 	virtual ~Drawer() = default;
 	virtual void drawCircle(int x, int y, int radius) = 0;
     virtual void drawPoint(int x, int y) = 0;
+    virtual void drawSquare(int x, int y, int edge) = 0;
 };
 
 class SmallCircleDrawer : public Drawer {
     const double radiusMultiplier = 0.25;
 public:
     void drawCircle(int x, int y, int radius) override {
-	    std::cout << "Small circle center " << x << ", " << y << " radius = " << radius * radiusMultiplier << std::endl;
+	    std::cout << "Small circle center (" << x << ", " << y << ") radius = " << radius * radiusMultiplier << std::endl;
     }
 
     void drawPoint(int x, int y) override {}
+
+    void drawSquare(int x, int y, int edge) override {}
 };
 
 class LargeCircleDrawer : public Drawer {
     const double radiusMultiplier = 10;
 public:
     void drawCircle(int x, int y, int radius) override {
-	    std::cout << "Large circle center " << x << ", " << y << " radius = " << radius * radiusMultiplier  << std::endl;
+	    std::cout << "Large circle center (" << x << ", " << y << ") radius = " << radius * radiusMultiplier  << std::endl;
     }
     void drawPoint(int x, int y) override {}
+
+    void drawSquare(int x, int y, int edge) override {}
 };
 
 class PointDrawer : public Drawer {
@@ -31,20 +36,21 @@ public:
     void drawCircle(int x, int y, int radius) override {}
 
     void drawPoint(int x, int y) override {
-        std::cout << "Point center " << x << ", " << y << std::endl;
+        std::cout << "Point center (" << x << ", " << y << ")" << std::endl;
     }
+
+    void drawSquare(int x, int y, int edge) override {}
 };
 
-class SmallSquareDrawer : public Drawer {
-    const double sideMultiplier = 0.25;
+class SquareDrawer final : public Drawer {
 public:
+    void drawCircle(int x, int y, int radius) override {}
 
-};
+    void drawPoint(int x, int y) override {}
 
-class LargeSquareDrawer : public Drawer {
-    const double sideMultiplier = 0.25;
-public:
-
+    void drawSquare(int x, int y, int edge) override {
+        std::cout << "Square upper corner (" << x << ", " << y << ") edge = " << edge << std::endl;
+    }
 };
 
 class Shape {
@@ -56,7 +62,8 @@ public:
         drawer = drw;
     }
 
-    Shape() {}
+    Shape(): drawer(nullptr) {
+    }
 
     virtual void draw() = 0;
     virtual void enlargeRadius(int multiplier) = 0;
@@ -117,11 +124,45 @@ public:
     void enlargeRadius(int multiplier) override {}
 };
 
+class Square : public Shape {
+    int x, y, edge;
+public:
+    Square(int _x, int _y, int _edge, Drawer* drw) {
+        drawer = drw;
+        setX(_x);
+        setY(_y);
+        setEdge(_edge);
+    }
+
+    void draw() override {
+        drawer->drawSquare(x, y, edge);
+    }
+
+    void setX(int _x) {
+        x = _x;
+    }
+
+    void setY(int _y) {
+        y = _y;
+    }
+
+    void setEdge(int _edge) {
+        edge = _edge;
+    }
+
+    void enlargeRadius(int multiplier) override {}
+};
+
 int main(int argc, char* argv[])
 {
-    Shape* shapes[3] = { new Circle(5,10,10, new LargeCircleDrawer()),
-                         new Circle(20,30,1, new SmallCircleDrawer()), 
-						 new Point(100, 100, new PointDrawer()) };
+    Shape* shapes[6] = { 
+		new Circle(5,10,10, new LargeCircleDrawer()),
+		new Circle(20,30,1, new SmallCircleDrawer()), 
+		new Point(100, 100, new PointDrawer()),
+		new Point(1000, 1000, new PointDrawer()),
+        new Square(100, 100, 100, new SquareDrawer()),
+        new Square(1000, 1000, 100, new SquareDrawer())
+    };
 
     for (Shape* shape : shapes) {
 	    shape->draw();
