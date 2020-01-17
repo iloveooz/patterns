@@ -9,36 +9,39 @@ class ConcreteColleague2;
 
 class Mediator {
 public:
+	virtual ~Mediator() = default;
 	virtual void Send(std::string const& message, Colleague* colleague) const = 0;
 };
 
 class Colleague {
 protected:
-	Mediator* mediator_;
+	Mediator* _mediator;
 
 public:
-	explicit Colleague(Mediator* mediator) : mediator_(mediator) {}
+	explicit Colleague(Mediator* mediator) : _mediator(mediator) {}
 };
 
 class ConcreteColleague1 : public Colleague {
 public:
-	explicit ConcreteColleague1(Mediator* mediator) :Colleague(mediator) {}
+	explicit ConcreteColleague1(Mediator* mediator) : Colleague(mediator) {}
 
 	void Send(std::string const& message) {
-		mediator_->Send(message, this);
+		_mediator->Send(message, this);
 	}
 
 	void Notify(std::string const& message) {
 		std::cout << "Colleague1 gets message '" << message << "'" << std::endl;
 	}
+private:
+	std::string _name;
 };
 
 class ConcreteColleague2 :public Colleague {
 public:
-	explicit ConcreteColleague2(Mediator* mediator) :Colleague(mediator) {}
+	explicit ConcreteColleague2(Mediator* mediator) : Colleague(mediator) {}
 
 	void Send(std::string const& message) {
-		mediator_->Send(message, this);
+		_mediator->Send(message, this);
 	}
 
 	void Notify(std::string const& message) {
@@ -47,26 +50,26 @@ public:
 };
 
 class ConcreteMediator :public Mediator {
-protected:
-	ConcreteColleague1* m_Colleague1;
-	ConcreteColleague2* m_Colleague2;
 public:
 	void SetColleague1(ConcreteColleague1* c) {
-		m_Colleague1 = c;
+		_m_Colleague1 = c;
 	}
 
 	void SetColleague2(ConcreteColleague2* c) {
-		m_Colleague2 = c;
+		_m_Colleague2 = c;
 	}
 
-	virtual void Send(std::string const& message, Colleague* colleague) const override {
-		if (colleague == m_Colleague1) {
-			m_Colleague2->Notify(message);
+	void Send(std::string const& message, Colleague* colleague) const override {
+		if (colleague == _m_Colleague1) {
+			_m_Colleague2->Notify(message);
 		}
-		else if (colleague == m_Colleague2) {
-			m_Colleague1->Notify(message);
+		else if (colleague == _m_Colleague2) {
+			_m_Colleague1->Notify(message);
 		}
 	}
+protected:
+	ConcreteColleague1* _m_Colleague1 = nullptr;
+	ConcreteColleague2* _m_Colleague2 = nullptr;
 };
 
 int main() {
