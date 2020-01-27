@@ -10,16 +10,7 @@ public:
 };
 
 class SupervisedString { // Observable class
-	std::string _str;
-	std::list<IObserver*> _observers;
-
-	void _Notify() {
-		for (auto& observer : _observers) {
-			observer->handleEvent(*this);
-		}
-	}
-
-	public:
+public:
 	void add(IObserver& ref) {
 		_observers.push_back(&ref);
 	}
@@ -35,6 +26,15 @@ class SupervisedString { // Observable class
 	void reset(std::string str) {
 		_str = str;
 		_Notify();
+	}
+private:
+	std::string _str;
+	std::list<IObserver*> _observers;
+
+	void _Notify() {
+		for (auto& observer : _observers) {
+			observer->handleEvent(*this);
+		}
 	}
 };
 
