@@ -1,11 +1,13 @@
 #include <iostream>
 #include <string>
 #include <list>
+#include <utility>
 
 class SupervisedString;
 
 class IObserver {
 public:
+	virtual ~IObserver() = default;
 	virtual void handleEvent(const SupervisedString&) = 0;
 };
 
@@ -24,7 +26,7 @@ public:
 	}
 
 	void reset(std::string str) {
-		_str = str;
+		_str = std::move(str);
 		_Notify();
 	}
 private:
@@ -40,14 +42,14 @@ private:
 
 class Reflector : public IObserver { // Prints the observed string into cout
 public:
-	virtual void handleEvent(const SupervisedString& ref) {
+	void handleEvent(const SupervisedString& ref) override {
 		std::cout << ref.get() << std::endl;
 	}
 };
 
 class Counter : public IObserver { // Prints the length of observed string into cout
 public:
-	virtual void handleEvent(const SupervisedString& ref) {
+	void handleEvent(const SupervisedString& ref) override {
 		std::cout << "length = " << ref.get().length() << std::endl;
 	}
 };
