@@ -7,4 +7,5 @@ class Bank {
 public:
 	void giveMoney();
 	void receiveMoney();
+	void queryBalance();
 };

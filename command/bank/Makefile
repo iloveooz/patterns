@@ -1,15 +1,15 @@
 CC=g++
 CFLAGS=-c -Wall -std=c++11
 LDFLAGS=
-SOURCES=main.cpp Bank.cpp BankClient.cpp PutCommand.cpp GetCommand.cpp
+SOURCES=main.cpp Bank.cpp BankClient.cpp PutCommand.cpp GetCommand.cpp BalanceCommand.cpp
 OBJECTS=$(SOURCES:.cpp=.o)
 EXECUTABLE=bank.exe
 PREFIX=/usr/local/bin
 
 all: $(EXECUTABLE)
 
-$(EXECUTABLE): main.o Bank.o BankClient.o PutCommand.o GetCommand.o
-	$(CC) main.o Bank.o BankClient.o PutCommand.o GetCommand.o -o $(EXECUTABLE)
+$(EXECUTABLE): main.o Bank.o BankClient.o PutCommand.o GetCommand.o BalanceCommand.o
+	$(CC) main.o Bank.o BankClient.o PutCommand.o GetCommand.o BalanceCommand.o -o $(EXECUTABLE)
 
 main.o: main.cpp
 	$(CC) $(CFLAGS) main.cpp
@@ -25,6 +25,9 @@ PutCommand.o: PutCommand.cpp
 
 GetCommand.o: GetCommand.cpp
 	$(CC) $(CFLAGS) GetCommand.cpp
+
+BalanceCommand.o: BalanceCommand.cpp
+	$(CC) $(CFLAGS) BalanceCommand.cpp
 
 install:
 	install ./$(EXECUTABLE) $(PREFIX)
