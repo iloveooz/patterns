@@ -1,0 +1,3 @@
+/home/fahr/git/patterns/delegate/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/home/fahr/git/patterns/delegate/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/fahr/git/patterns/delegate/cmake-build-debug/CMakeFiles/delegate.dir
