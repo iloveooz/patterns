@@ -1,4 +1,4 @@
-#include <iostream.h>
+#include <iostream>
 class Number;
  
 class Memento
@@ -60,13 +60,13 @@ class Command
         if (_numCommands > _highWater)
           _highWater = _numCommands;
         _numCommands++;
-        (_receiver-> *_action)();
+        (_receiver->_action)();
     }
     static void undo()
     {
         if (_numCommands == 0)
         {
-            cout << "*** Attempt to run off the end!! ***" << endl;
+            std::cout << "*** Attempt to run off the end!! ***" << std::endl;
             return ;
         }
            _commandList[_numCommands - 1]->_receiver->reinstateMemento
@@ -77,7 +77,7 @@ class Command
     {
         if (_numCommands > _highWater)
         {
-            cout << "*** Attempt to run off the end!! ***" << endl;
+            std::cout << "*** Attempt to run off the end!! ***" << std::endl;
             return ;
         }
   (_commandList[_numCommands]->_receiver->*(_commandList[_numCommands]
@@ -101,16 +101,16 @@ int Command::_highWater = 0;
 int main()
 {
   int i;
-  cout << "Integer: ";
-  cin >> i;
+  std::cout << "Integer: ";
+  std::cin >> i;
   Number *object = new Number(i);
  
   Command *commands[3];
   commands[1] = new Command(object, &Number::dubble);
   commands[2] = new Command(object, &Number::half);
  
-  cout << "Exit[0], Double[1], Half[2], Undo[3], Redo[4]: ";
-  cin >> i;
+  std::cout << "Exit[0], Double[1], Half[2], Undo[3], Redo[4]: ";
+  std::cin >> i;
  
   while (i)
   {
@@ -120,8 +120,8 @@ int main()
       Command::redo();
     else
       commands[i]->execute();
-    cout << "   " << object->getValue() << endl;
-    cout << "Exit[0], Double[1], Half[2], Undo[3], Redo[4]: ";
-    cin >> i;
+    std::cout << "   " << object->getValue() << std::endl;
+    std::cout << "Exit[0], Double[1], Half[2], Undo[3], Redo[4]: ";
+    std::cin >> i;
   }
 }
