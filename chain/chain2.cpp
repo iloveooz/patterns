@@ -31,7 +31,7 @@ public:
             if (next) {
                 next->cooking(dish);
             } else {
-                std::cout << "Это блюдо никто не может приготовить." << std::endl;
+                std::cout << dish->m_description << " - это блюдо никто не может приготовить." << std::endl;
             }
         } else {
             cookingConcrete(dish->m_description);
@@ -73,15 +73,24 @@ public:
     SeniorCook(int skill): Cook(skill) {}
 };
 
+class SuperCook : public Cook {
+protected:
+	void cookingConcrete(const char* description) {
+		std::cout << "Блюдо \"" << description << "\" готовит супер-повар Марио" << std::endl;
+	}
+public:
+	SuperCook(int skill) : Cook(skill) {}
+};
+
 int main() {
 	setlocale(LC_ALL, "Russian");
-    Cook* cook = new JuniorCook(3); // повар с наименьшим опытом приготовления блюд
-    cook->setNext(new MiddleCook(5))->setNext(new SeniorCook(8)); // добавляем ему двух опытных коллег
-	
-    cook->cooking(new Dish(2, "Блинчики"));
-    cook->cooking(new Dish(7, "Тортик"));
-    cook->cooking(new Dish(5, "Борщец"));
+	Cook* cook = new JuniorCook(3); // повар с наименьшим опытом приготовления блюд
+	cook->setNext(new MiddleCook(5))->setNext(new SeniorCook(8))->setNext(new SuperCook(16)); // добавляем ему трёх опытных коллег
 
-	system("pause");
-    return 0;
+	cook->cooking(new Dish(2, "Блинчики"));
+	cook->cooking(new Dish(7, "Тортик"));
+	cook->cooking(new Dish(5, "Борщец"));
+	cook->cooking(new Dish(15, "Дранички"));
+
+	return 0;
 }
