@@ -3,6 +3,7 @@
 
 class Interface {
 public:
+	virtual ~Interface() {}
     virtual void f() = 0;
     virtual void g() = 0;
 };
@@ -21,10 +22,16 @@ public:
 
 class C : public Interface {
 public:
+	void f() { std::cout << "C: вызываем метод f()" << std::endl; }
+    void g() { std::cout << "C: вызываем метод g()" << std::endl; }
+};
+
+class User : public Interface {
+public:
     // Конструктор
-    C() : m_i ( new A() ) { }
+    User() : m_i ( new A() ) { }
     // Деструктор
-    virtual ~C() {
+    virtual ~User() {
         delete m_i;
     }
     void f() { m_i->f(); }
@@ -38,19 +45,26 @@ public:
         delete m_i;
         m_i = new B();
     }
+    void toC() {
+		delete m_i;
+		m_i = new C();
+	}
 private:
     // Объявляем объект методы которого будем делегировать
     Interface * m_i;
 };
 
 int main() {
-    C c;
+    User user;
 
-    c.f();
-    c.g();
-    c.toB();
-    c.f();
-    c.g();
+    user.f();
+    user.g();
+    user.toB();
+    user.f();
+    user.g();
+    user.toC();
+    user.f();
+    user.g();
 
     return 0;
 }
