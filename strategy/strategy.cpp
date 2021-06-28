@@ -11,28 +11,28 @@ public:
 class ZIP_Compression : public Compression {
 public:
     void compress(const std::string &file) {
-        std::cout << "ZIP compression" << std::endl;
+        std::cout << "ZIP compression for " << file << std::endl;
     }
 };
   
 class ARJ_Compression : public Compression {
 public:
     void compress(const std::string &file) {
-        std::cout << "ARJ compression" << std::endl;
+        std::cout << "ARJ compression for " << file << std::endl;
     }
 };
   
 class RAR_Compression : public Compression {
 public:
     void compress(const std::string &file) {
-        std::cout << "RAR compression" << std::endl;
+        std::cout << "RAR compression for " << file << std::endl;
     }
 };
 
 class GZIP_Compresiion : public Compression {
 public:
 	void compress(const std::string &file) {
-		std::cout << "GZIP Compression" << std::endl;
+		std::cout << "GZIP Compression for " << file << std::endl;
 	}
 };
 
@@ -52,6 +52,7 @@ int main() {
 	Compressor *p = new Compressor(new GZIP_Compresiion);
 	p->compress("file.txt");
 	delete p;
+	
 	system("pause");
 	return 0;
 }
